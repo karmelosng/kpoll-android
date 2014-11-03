@@ -122,14 +122,24 @@
 
     <TextView
         android:id="@+id/textView1"
-        android:padding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/checkBox1"
         android:layout_alignRight="@+id/checkBox7"
         android:layout_marginBottom="22dp"
         android:background="#ffffff"
-        android:textColor="#000000"
-        android:text="Select Interest Areas" />
+        android:padding="5dp"
+        android:text="Select Interest Areas"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/connect"
+        android:textSize="12sp"
+        />
 
 </RelativeLayout>
