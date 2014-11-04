@@ -38,7 +38,7 @@ public final class R {
         public static final int checkBox8=0x7f07000a;
         public static final int checkBox9=0x7f07000b;
         public static final int choiceGroups=0x7f070014;
-        public static final int connect=0x7f07000e;
+        public static final int connected=0x7f07000e;
         public static final int editText1=0x7f070000;
         public static final int editText2=0x7f070001;
         public static final int linearLayout1=0x7f07000f;

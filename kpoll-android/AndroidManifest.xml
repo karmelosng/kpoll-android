@@ -7,6 +7,8 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
+    <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -21,14 +23,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".RegisterActivity"
-            android:label="@string/title_activity_main" >
-        </activity>
+  
         <activity
             android:name=".RespondActivity"
             android:label="@string/title_activity_respond" >
         </activity>
+        <receiver android:name=".ConnectionChangeListener"
+          android:label="NetworkConnection">
+  <intent-filter>
+    <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+  </intent-filter>
+</receiver>
     </application>
 
 </manifest>

@@ -13,6 +13,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -37,12 +40,13 @@ private EditText passEdit;
 private CheckBox swimming,politics,boxing,relationship,fashion,movie,rugby,computer,investment,football;
 private List<String> interests  = new ArrayList<String>();
 private String[] availableInterest = {"Swimming","Politics","Boxing","Relationship","Fashion","Movie","Rugby","Computer","Investment","Football"};
-	@Override
+
+@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		connect = (TextView) findViewById(R.id.connect);
-		connect.setBackgroundColor(Color.RED);
 		setContentView(R.layout.activity_register);
+		connect = (TextView) findViewById(R.id.connected);
+		connect.setBackgroundColor(Color.RED);
 		subMit = (Button) findViewById(R.id.button1);
 		passEdit = (EditText) findViewById(R.id.editText2);
 		swimming = (CheckBox) findViewById(R.id.checkBox1);
@@ -69,7 +73,7 @@ private String[] availableInterest = {"Swimming","Politics","Boxing","Relationsh
 				else if(!isChecked) {
 					if(interests.contains(availableInterest[0])){
 						interests.remove(availableInterest[0]);
-						Toast.makeText(getBaseContext(), "checked " +availableInterest[0], Toast.LENGTH_SHORT).show();
+						Toast.makeText(getBaseContext(), "unchecked " +availableInterest[0], Toast.LENGTH_SHORT).show();
 					}
 				}
 				
@@ -89,7 +93,7 @@ private String[] availableInterest = {"Swimming","Politics","Boxing","Relationsh
 				else if(!isChecked) {
 					if(interests.contains(availableInterest[1])){
 						interests.remove(availableInterest[1]);
-						Toast.makeText(getBaseContext(), "checked " +availableInterest[1], Toast.LENGTH_SHORT).show();
+						Toast.makeText(getBaseContext(), "unchecked " +availableInterest[1], Toast.LENGTH_SHORT).show();
 					}
 				}
 				
@@ -121,7 +125,7 @@ private String[] availableInterest = {"Swimming","Politics","Boxing","Relationsh
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked){
-					if(!interests.contains(availableInterest[03])){
+					if(!interests.contains(availableInterest[3])){
 						interests.add(availableInterest[3]);
 						Toast.makeText(getBaseContext(), "checked " +availableInterest[3], Toast.LENGTH_SHORT).show();
 					}
@@ -254,17 +258,17 @@ private String[] availableInterest = {"Swimming","Politics","Boxing","Relationsh
 			}
 		});
 		
-		while(isConnected()){
-			connect.setText("Connected");
-			connect.setBackgroundColor(Color.GREEN);
-			
-		}
+//		while(isConnected()){
+//			connect.setText("Connected");
+//			connect.setBackgroundColor(Color.GREEN);
+//			
+//		}
 		
 		subMit.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-			new HttpAsync().execute("karmelos.com.ng/kpoll");
+			new HttpAsync().execute("karmelos.com.ng/kpol");
 				
 			}
 		});
@@ -377,4 +381,7 @@ private String[] availableInterest = {"Swimming","Politics","Boxing","Relationsh
 			return false;
 		}
 	}
-}
+	
+
+	}
+

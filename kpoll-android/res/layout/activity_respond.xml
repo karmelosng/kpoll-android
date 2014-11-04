@@ -76,7 +76,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="Please Pick a Choice" />
+                android:text="Please Pick a Choice"
+                tools:ignore="ObsoleteLayoutParam" />
+
         </LinearLayout>
 
         <RadioGroup 
