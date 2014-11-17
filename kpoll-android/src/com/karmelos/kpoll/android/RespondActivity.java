@@ -4,26 +4,36 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+import com.karmelos.kpoll.model.PollSurvey;
+
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -37,22 +47,28 @@ private Button respond;
 private static int pollType;
 private LinearLayout lineLayout;
 private String phonenumber, answer;
-private RadioGroup choiceGroup;
+final String URL = "www.karmelos.com";
+String userid;
+private int myprogress;
+private ProgressBar progressbar;
+private Handler handler = new Handler();
+private int progess;
+//private RadioGroup choiceGroup;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_respond);
-		freeEdit = (EditText) findViewById(R.id.editText1);
 		
 		
 		freeEdit = (EditText) findViewById(R.id.editText1);
+//		freeEdit = (EditText) findViewById(R.id.editText1);
 		yesCheck = (CheckBox) findViewById(R.id.checkBox1);
 		noCheck = (CheckBox) findViewById(R.id.checkBox2);
 		maybeCheck = (CheckBox) findViewById(R.id.checkBox3);
 		lineLayout = (LinearLayout) findViewById(R.id.linearLayout2);
-		respond = (Button) findViewById(R.id.button1);
+		respond = (Button) findViewById(R.id.respond);
 		
 		
 		switch (pollType) {
@@ -67,6 +83,16 @@ private RadioGroup choiceGroup;
 			//freeEdit.setInputType(TextView.s
 			break;
 		}
+		
+		respond.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				setUserid(retrieveId());
+			new HttpAsync().execute(URL);
+				
+			}
+		});
 		
 	}
 	
@@ -96,9 +122,9 @@ private RadioGroup choiceGroup;
 			HttpClient client = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost();
 			JSONObject jObject = new JSONObject();
-			jObject.accumulate("answer", answer);
-			jObject.accumulate("phoneNumber", phonenumber);
-			jObject.accumulate("pollType", pollType);
+			jObject.put("answer", answer);
+			jObject.put("phoneNumber", phonenumber);
+			jObject.put("pollType", pollType);
 			
 			String jString = jObject.toString();
 			StringEntity entity = new StringEntity(jString);
@@ -108,9 +134,10 @@ private RadioGroup choiceGroup;
 			httpPost.setHeader("content-type","application/json");
 			
 			HttpResponse response = client.execute(httpPost);
+			if(response.getStatusLine().getStatusCode() == 200){
 			inputStream = response.getEntity().getContent();
 			
-			if(inputStream != null){
+			
 				result = convertHttpResponse(inputStream);
 			}
 			
@@ -157,5 +184,73 @@ private RadioGroup choiceGroup;
 		}
 		
 		
+	}
+
+	/**
+	 * @return the pollType
+	 */
+	public static int getPollType() {
+		return pollType;
+	}
+
+	/**
+	 * @param pollType the pollType to set
+	 */
+	public static void setPollType(int pollType) {
+		RespondActivity.pollType = pollType;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public String getUserid() {
+		
+		return userid;
+	}
+
+	/**
+	 * @param userid the userid to set
+	 */
+	private String retrieveId(){
+		SharedPreferences pref = getSharedPreferences("kpollid", MODE_PRIVATE);
+		String userid = pref.getString("userid", null); 
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid; 
 	} 
+	
+
+	private PollSurvey getPoll(String url){ 
+		PollSurvey pollSurvey = null;
+		HttpClient client = new DefaultHttpClient();
+		HttpGet getpoll = new HttpGet(url);
+		try {
+			HttpResponse resp = client.execute(getpoll);
+			InputStream stream = resp.getEntity().getContent();
+			Reader reader = new InputStreamReader(stream);
+			Gson gson = new Gson();
+			 pollSurvey = gson.fromJson(reader, PollSurvey.class);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pollSurvey;
+		
+	}
+private void getAvailablePoll(View v){
+	progressbar = (ProgressBar) findViewById(R.id.progressBar1);
+	progressbar.setVisibility(0);
+	new Thread(new Runnable() {
+		
+		@Override
+		public void run() {
+			
+			
+		}
+	});
+}	
 }
