@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    
+     >
+ <EditText 
+     android:id="@+id/line"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:hint="@string/number"
+     android:layout_marginTop="5dp"
+     
+     />   
+<EditText 
+    android:id="@+id/pass"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="@string/passLabel"
+    android:layout_marginBottom="10dp"
+    />
+<TextView
+    android:id="@+id/text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/select_int"
+    android:textColor="#000000"
+    android:background="#ffffff"
+    />
+    <ListView 
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       />
+    <Button 
+        android:id="@+id/but"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        
+        />
+</LinearLayout>
